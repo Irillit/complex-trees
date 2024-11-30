@@ -10,10 +10,6 @@ class Trie:
         self._root = TrieNode()
 
     def insert(self, word):
-        """
-        :type word: str
-        :rtype: None
-        """
         curr = self._root
 
         for i, char in enumerate(word):
@@ -30,11 +26,7 @@ class Trie:
                 if i == len(word) - 1:
                     curr.word_end = True
 
-    def search(self, word):
-        """
-        :type word: str
-        :rtype: bool
-        """
+    def search(self, word) -> bool:
         curr = self._root
 
         for i, char in enumerate(word):
@@ -49,11 +41,7 @@ class Trie:
 
         return False
 
-    def startsWith(self, prefix):
-        """
-        :type prefix: str
-        :rtype: bool
-        """
+    def starts_with(self, prefix) -> bool:
         curr = self._root
 
         for char in prefix:
@@ -63,3 +51,16 @@ class Trie:
             curr = curr.children[idx]
 
         return True
+
+
+if __name__ == "__main__":
+    trie = Trie()
+    trie.insert("add")
+    trie.insert("address")
+    trie.insert("look")
+    trie.insert("book")
+
+    print(trie.search("book"))
+    print(trie.search("soup"))
+    print(trie.search("addr"))
+    print(trie.starts_with("addr"))

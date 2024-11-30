@@ -6,7 +6,7 @@ BLACK = "black"
 
 
 class Node:
-    def __init__(self, data):
+    def __init__(self, data: int):
         self.data: int = data
         self.color: str = RED
         self.left: Optional[Node] = None
@@ -122,10 +122,10 @@ class RedBlackTree:
         y.right = x
         x.parent = y
 
-    def search(self, data: int):
+    def search(self, data: int) -> bool:
         return self._search(self._root, data)
 
-    def _search(self, current: Node, data: int):
+    def _search(self, current: Node, data: int) -> bool:
         if current == self._nil:
             return False
         if current.data == data:
