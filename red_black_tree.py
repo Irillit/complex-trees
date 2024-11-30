@@ -122,8 +122,18 @@ class RedBlackTree:
         y.right = x
         x.parent = y
 
-    def search(self):
-        pass
+    def search(self, data: int):
+        return self._search(self._root, data)
+
+    def _search(self, current: Node, data: int):
+        if current == self._nil:
+            return False
+        if current.data == data:
+            return True
+        elif data > current.data:
+            return self._search(current.right, data)
+        elif data < current.data:
+            return self._search(current.left, data)
 
     def _traverse(self, current: Node, i: int):
         if current is self._nil:
@@ -150,3 +160,6 @@ if __name__ == '__main__':
     tree.insert(27)
 
     tree.traverse()
+
+    print(tree.search(18))
+    print(tree.search(45))
