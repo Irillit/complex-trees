@@ -135,17 +135,72 @@ class RedBlackTree:
         elif data < current.data:
             return self._search(current.left, data)
 
+    def set_parent(self, parent_node, node, successor):
+        if successor is not self._nil:
+            successor.parent = parent_node
+
+        if parent_node.right == node:
+            parent_node.right = successor
+        elif parent_node.left == node:
+            parent_node.left = successor
+
+    def delete(self, data):
+        node = self._root
+        while node is not self._nil:
+            if data > node.data:
+                node = node.right
+            elif data < node.data:
+                node = node.left
+            elif data == node.data:
+                break
+
+        if node == self._nil:
+            print(f"The node with data {data} doesn't exists.")
+            return
+
+        if node.right is self._nil and node.left is self._nil:
+            # If the node doesn't have children
+            self.set_parent(node.parent, node, self._nil)
+
+        if node.right is not self._nil and node.left is self._nil:
+            # If the node has only right child
+            child_node = node.right
+            node.right = None
+            self.set_parent(node.parent, node, child_node)
+
+        if node.left is not self._nil and node.right is self._nil:
+            # If the node has only left child
+            child_node = node.left
+            node.left = None
+            self.set_parent(node.parent, node, child_node)
+
+        if node.left is not self._nil and node.right is not self._nil:
+            # If the node has both children
+            successor = node.left
+            successor.left = node.left.left
+            successor.right = node.right
+            self.set_parent(node.parent, node, successor)
+
+        node.parent = None
+        del node
+
     def _traverse(self, current: Node, i: int):
         if current is self._nil:
             return
         i = i + 1
         self._traverse(current.left, i)
-        spaces = "  " * i
+        spaces = "   " * i
         print(f"{spaces}{current.data} {current.color}")
         self._traverse(current.right, i)
 
     def traverse(self):
         self._traverse(self._root, 0)
+
+    def fix_double_red(self):
+        pass
+
+    def fix_double_black(self):
+        pass
 
 
 if __name__ == '__main__':
@@ -163,3 +218,6 @@ if __name__ == '__main__':
 
     print(tree.search(18))
     print(tree.search(45))
+    tree.delete(12)
+    print("deleted")
+    tree.traverse()
